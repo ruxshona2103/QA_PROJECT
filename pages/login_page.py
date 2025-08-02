@@ -5,8 +5,7 @@ class LoginPage(BasePage):
     USERNAME_INPUT = (By.XPATH, '//input[@id="userName"]')
     PASSWORD_INPUT = (By.XPATH, '//input[@id="password"]')
     LOGIN_BUTTON = (By.XPATH, '//button[@id="login"]')
-    ERROR_MESSAGE = (By.XPATH, '//p[@id="name"]')
-
+    ERROR_MSG = (By.XPATH, "//form[@id='userForm']//p[@id='name']")
 
     def enter_username(self, username):
         self.input_text(self.USERNAME_INPUT, username)
@@ -19,4 +18,7 @@ class LoginPage(BasePage):
         self.click(self.LOGIN_BUTTON)
 
     def get_error_message(self):
-        return self.get_text(self.ERROR_MESSAGE)
+        return self.get_text(self.ERROR_MSG)
+
+    def get_input_border_color(self, locator):
+        return self.get_css_value(locator, "border-color")

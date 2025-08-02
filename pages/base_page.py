@@ -28,6 +28,10 @@ class BasePage():
         return self._visibility_of_element_located(locator)
 
 
+    def get_css_value(self, locator, property_name):
+        return self.driver.find_element(*locator).value_of_css_property(property_name)
+
+
     # ----------------------------------------SUPPORT FUNCTIONS---------------------------------------------------------
 
 
