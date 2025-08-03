@@ -4,14 +4,19 @@ import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class BasePage():
-    def __init__(self, driver):
+
+
+class BasePage:
+    def __init__(self, driver, timeout=10):
         self.driver = driver
-#----------------------------------------MAIN FUNCTIONS-----------------------------------------------------------------
+        self.timeout = timeout
+        self._configure_logging()
+
+    # -----------------------------MAIN FUNCTIONS-----------------------------------------------------------------------
 
     def click(self, locator):
+        self._scroll_to_element(locator)
         element = self._element_to_be_clickable(locator)
-        self._scroll_to_element(element)
         self._click(element)
 
     def input_text(self, locator, text):
@@ -23,33 +28,33 @@ class BasePage():
         element = self._visibility_of_element_located(locator)
         return element.text
 
-
     def wait_for_element_visible(self, locator):
         return self._visibility_of_element_located(locator)
 
-
-    def get_css_value(self, locator, property_name):
-        return self.driver.find_element(*locator).value_of_css_property(property_name)
-
-
-    # ----------------------------------------SUPPORT FUNCTIONS---------------------------------------------------------
-
+    # ------------------------SUPPORT FUNCTIONS--------------------------------------------------------------------------
 
     def _click(self, element):
         element.click()
 
     def _element_to_be_clickable(self, locator):
-        return WebDriverWait(self.driver).until(EC.element_to_be_clickable(locator))
-
+        return WebDriverWait(self.driver, self.timeout).until(
+            EC.element_to_be_clickable(locator)
+        )
 
     def _visibility_of_element_located(self, locator):
-        return WebDriverWait(self.driver).until(EC.visibility_of_element_located(locator))
-
-
+        return WebDriverWait(self.driver, self.timeout).until(
+            EC.visibility_of_element_located(locator)
+        )
 
     def _scroll_to_element(self, locator):
-        return WebDriverWait(self.driver).until(EC.element_to_be_clickable(locator))
-
+        try:
+            element = WebDriverWait(self.driver, self.timeout).until(
+                EC.presence_of_element_located(locator)
+            )
+            self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element)
+        except Exception as e:
+            self.logger.warning(f"Element scroll bo'lmadi: {e}")
+        return
 
     def _take_screenshot(self, file_name=None):
         if not os.path.exists("screenshots"):
@@ -62,12 +67,11 @@ class BasePage():
         self.driver.save_screenshot(file_name)
         self.logger.info(f"Screenshot saved: {file_name}")
 
-
     def _configure_logging(self):
         if not os.path.exists("logs"):
             os.mkdir('logs')
 
-        self.logger = logging.getLogger("BasePageLogger")
+        self.logger = logging.getLogger(f"BasePageLogger-{id(self.driver)}")
         self.logger.setLevel(logging.INFO)
 
         if not self.logger.handlers:
@@ -75,5 +79,3 @@ class BasePage():
             formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
             file_handler.setFormatter(formatter)
             self.logger.addHandler(file_handler)
-
-

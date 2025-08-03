@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from base_page import BasePage
+from pages.base_page  import BasePage
 
 class LoginPage(BasePage):
     USERNAME_INPUT = (By.XPATH, '//input[@id="userName"]')
@@ -7,18 +7,21 @@ class LoginPage(BasePage):
     LOGIN_BUTTON = (By.XPATH, '//button[@id="login"]')
     ERROR_MSG = (By.XPATH, "//form[@id='userForm']//p[@id='name']")
 
-    def enter_username(self, username):
+    def open(self):
+        self.driver.get("https://demoqa.com/login")
+
+
+    def login(self, username, password):
         self.input_text(self.USERNAME_INPUT, username)
-
-
-    def enter_password(self, password):
         self.input_text(self.PASSWORD_INPUT, password)
-
-    def click_login(self):
         self.click(self.LOGIN_BUTTON)
+
 
     def get_error_message(self):
         return self.get_text(self.ERROR_MSG)
 
+
+
     def get_input_border_color(self, locator):
-        return self.get_css_value(locator, "border-color")
+        element = self.driver.find_element(locator)
+        return element.value_of_css_property("border-color")
