@@ -1,7 +1,7 @@
 import pytest
 
 @pytest.mark.parametrize("username, password, expected", [
-    ("", "", ""),
+    ("user1", "password1", "Invalid username or password!"),
     ("wronguser", "wrongpass", "Invalid username or password!"),
 ])
 
@@ -11,7 +11,9 @@ def test_login(login_page, username, password, expected):
 
     if expected:
         assert login_page.get_error_message() == expected
+        login_page._take_screenshot()
 
     else:
         color = login_page.get_input_border_color(login_page.USERNAME)
         assert color in ["rgb(220, 53, 69)", "#dc3545"]
+        login_page._take_screenshot()
