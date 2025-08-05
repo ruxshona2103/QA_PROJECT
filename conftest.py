@@ -11,7 +11,7 @@ from pages.text_box_page import TextBoxPage
 def driver():
     options = Options()
     options.add_argument("--start-maximized")
-    options.add_argument("--force-device-scale-factor=0.50")
+    options.add_argument("--force-device-scale-factor=0.60")
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
     yield driver
