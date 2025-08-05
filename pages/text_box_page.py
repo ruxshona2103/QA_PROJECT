@@ -14,18 +14,17 @@ class TextBoxPage(BasePage):
 
     # ------------------------------------------------------------------------------------------------------------------
 
+    def open(self):
+        self.driver.get('https://demoqa.com/text-box')
 
-    def enter_fullname(self, full_name):
-        self.input_text(self.INPUT_FULLNAME, full_name)
 
-    def enter_email(self, email):
-        self.input_text(self.INPUT_EMAIL, email)
+    def input_info(self):
+        self.input_text(self.INPUT_FULLNAME, "Aglamkhujayeva Ruxshona")
+        self.input_text(self.INPUT_EMAIL, "ruxshonaaglamkhujayeva@gmail.com")
+        self.input_text(self.INPUT_CURRENT_ADDRESS, "Tashkent city")
+        self.input_text(self.INPUT_PERMANENT_ADDRESS, "Bektemir district ")
 
-    def enter_crn_address(self, current_address):
-        self.input_text(self.INPUT_CURRENT_ADDRESS, current_address)
 
-    def enter_prm_adrees(self, permanent_address):
-        self.input_text(self.INPUT_PERMANENT_ADDRESS, permanent_address)
 
     def click_btn(self):
         self.click(self.SUBMIT_BTN)
@@ -33,15 +32,8 @@ class TextBoxPage(BasePage):
 
     #    ---------------------------------------------------------------------------------------------------------------
 
-
-    def get_username(self):
+    def get_info(self):
         self.get_text(self.GET_FULLNAME)
-
-    def get_email(self):
         self.get_text(self.GET_EMAIL)
-
-    def get_crn_address(self):
         self.get_text(self.GET_CRN_ADDRESS)
-
-    def get_prm_address(self):
         self.get_text(self.GET_PRMT_ADDRESS)
