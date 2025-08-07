@@ -17,18 +17,14 @@ class TextBoxPage(BasePage):
     def open(self):
         self.driver.get('https://demoqa.com/text-box')
 
-
     def input_info(self):
         self.input_text(self.INPUT_FULLNAME, "Aglamkhujayeva Ruxshona")
         self.input_text(self.INPUT_EMAIL, "ruxshonaaglamkhujayeva@gmail.com")
         self.input_text(self.INPUT_CURRENT_ADDRESS, "Tashkent city")
         self.input_text(self.INPUT_PERMANENT_ADDRESS, "Bektemir district ")
 
-
-
     def click_btn(self):
         self.click(self.SUBMIT_BTN)
-
 
     #    ---------------------------------------------------------------------------------------------------------------
 
