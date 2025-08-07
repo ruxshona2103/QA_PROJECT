@@ -10,17 +10,13 @@ class LoginPage(BasePage):
     def open(self):
         self.driver.get("https://demoqa.com/login")
 
-
     def login(self, username, password):
         self.input_text(self.USERNAME_INPUT, username)
         self.input_text(self.PASSWORD_INPUT, password)
         self.click(self.LOGIN_BUTTON)
 
-
     def get_error_message(self):
         return self.get_text(self.ERROR_MSG)
-
-
 
     def get_input_border_color(self, locator):
         element = self.driver.find_element(locator)
