@@ -1,0 +1,32 @@
+name: Run Selenium Tests
+
+on:
+  push:
+    branches: [main]  # 1. 'main' branchga kod yuklansa ishlaydi
+
+  workflow_dispatch:  # 2. Qo‘lda ishga tushirish (Actions > Run workflow)
+
+  schedule:           # 3. Vaqt bo‘yicha ishga tushirish
+    - cron: '0 21 * * *'  # Har kuni soat 02:00 Tashkent vaqti (21:00 UTC)
+
+jobs:
+  selenium-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Kodni yuklash
+        uses: actions/checkout@v3
+
+      - name: 2. Python o‘rnatish
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: 3. Kutubxonalarni o‘rnatish
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 4. Testlarni ishga tushurish
+        run: |
+          pytest -v
